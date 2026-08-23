@@ -105,9 +105,7 @@ export function App() {
             <button onClick={() => scrollTo("capabilities")}>Capabilities</button>
             <button onClick={() => scrollTo("results")}>Results</button>
             <button onClick={() => scrollTo("faq")}>FAQ</button>
-            <button className="mobile-login" onClick={() => openAuth("login")}>Log in</button>
-            <button className="mobile-upload" onClick={triggerUpload}><UploadCloud size={14}/> Upload data</button>
-          </div>
+                      </div>
           <div className="nav-actions"><button onClick={() => openAuth("login")}>Log in</button><button className="upload-action" onClick={triggerUpload}><UploadCloud size={15}/> Upload data</button></div>
           <button className="menu" onClick={() => setMenuOpen(v=>!v)}>{menuOpen ? <X/> : <Menu/>}</button>
         </div>
