@@ -37,6 +37,7 @@ class Settings(BaseSettings):
 
     qdrant_url: AnyHttpUrl = Field(default="http://localhost:6333")
     openai_api_key: str | None = Field(default=None)
+    gemini_api_key: str | None = Field(default=None)
 
     log_level: Literal["DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL"] = Field(
         default="INFO"
