@@ -5,6 +5,7 @@ from app.api.health import router as health_router
 from app.api.knowledge_facts import router as knowledge_facts_router
 from app.api.restaurant_members import router as restaurant_members_router
 from app.api.restaurants import router as restaurants_router
+from app.api.training import router as training_router
 
 app = FastAPI(
     title="Restaurant Knowledge OS",
@@ -16,7 +17,7 @@ app.include_router(auth_router)
 app.include_router(restaurants_router)
 app.include_router(restaurant_members_router)
 app.include_router(knowledge_facts_router)
-
+app.include_router(training_router)
 
 @app.get("/")
 def root():
