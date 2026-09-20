@@ -1,0 +1,648 @@
+GEMINI EXTRACTION STRESS TEST RESULTS
+====================================================================================================
+
+====================================================================================================
+1. Multiple facts + exception + unrelated information
+====================================================================================================
+
+INPUT:
+We normally open at 11 AM and close at 11 PM, although on Fridays and Saturdays we stay open until midnight. We don't serve breakfast at the moment, but we're considering starting it during the winter. We have a small private dining room upstairs, and customers can order delivery through Swiggy or Zomato. Oh, and parking is available behind the building.
+
+EXTRACTED JSON:
+{
+  "facts": [
+    {
+      "category": "hours",
+      "fact_key": "opening_hours",
+      "fact_value": {
+        "open_time": "11:00 AM",
+        "close_time_standard": "11:00 PM",
+        "close_time_friday_saturday": "12:00 AM"
+      },
+      "confidence": 0.95,
+      "uncertain": false,
+      "source_text": "We normally open at 11 AM and close at 11 PM, although on Fridays and Saturdays we stay open until midnight."
+    },
+    {
+      "category": "menu",
+      "fact_key": "breakfast_service",
+      "fact_value": {
+        "currently_served": false,
+        "considering_winter_start": true
+      },
+      "confidence": 0.9,
+      "uncertain": true,
+      "source_text": "We don't serve breakfast at the moment, but we're considering starting it during the winter."
+    },
+    {
+      "category": "amenities",
+      "fact_key": "private_dining_room",
+      "fact_value": {
+        "available": true,
+        "size": "small",
+        "location": "upstairs"
+      },
+      "confidence": 0.95,
+      "uncertain": false,
+      "source_text": "We have a small private dining room upstairs"
+    },
+    {
+      "category": "services",
+      "fact_key": "delivery",
+      "fact_value": {
+        "available": true,
+        "platforms": [
+          "Swiggy",
+          "Zomato"
+        ]
+      },
+      "confidence": 0.95,
+      "uncertain": false,
+      "source_text": "customers can order delivery through Swiggy or Zomato."
+    },
+    {
+      "category": "parking",
+      "fact_key": "parking_availability",
+      "fact_value": {
+        "available": true,
+        "location": "behind the building"
+      },
+      "confidence": 0.95,
+      "uncertain": false,
+      "source_text": "parking is available behind the building."
+    }
+  ]
+}
+
+NUMBER OF FACTS: 5
+PYDANTIC VALIDATION PASSED: True
+
+HUMAN REVIEW CHECKLIST:
+- Multiple independent facts captured? Inspect extracted JSON.
+- Uncertainty preserved? Inspect confidence, uncertain, and fact_value.
+- Negations preserved? Inspect fact_value and wording.
+- Conditions preserved? Inspect fact_value and qualifiers.
+- Corrections handled correctly? Compare final/current meaning with input.
+- Questions kept separate from factual statements? Inspect facts.
+- Historical information kept from becoming a permanent fact? Inspect temporal wording.
+- Future/planned information preserved as future/planned? Inspect fact_value.
+- Unsupported information invented? Compare every fact with the input.
+- Uncertainty/conditions incorrectly converted to certainty? Inspect carefully.
+
+====================================================================================================
+2. Uncertainty
+====================================================================================================
+
+INPUT:
+I think we usually open around 10:30 or 11 in the morning, but I'm not completely sure because our manager sometimes opens earlier on weekends. We might also start serving breakfast next month if the kitchen staff agrees.
+
+EXTRACTED JSON:
+{
+  "facts": [
+    {
+      "category": "opening_hours",
+      "fact_key": "opening_time",
+      "fact_value": {
+        "usual_opening_time": "around 10:30 or 11:00 AM",
+        "weekend_note": "manager sometimes opens earlier on weekends"
+      },
+      "confidence": 0.7,
+      "uncertain": true,
+      "source_text": "I think we usually open around 10:30 or 11 in the morning, but I'm not completely sure because our manager sometimes opens earlier on weekends."
+    },
+    {
+      "category": "meals_served",
+      "fact_key": "breakfast_service",
+      "fact_value": {
+        "possible_start": "next month",
+        "condition": "if the kitchen staff agrees"
+      },
+      "confidence": 0.6,
+      "uncertain": true,
+      "source_text": "We might also start serving breakfast next month if the kitchen staff agrees."
+    }
+  ]
+}
+
+NUMBER OF FACTS: 2
+PYDANTIC VALIDATION PASSED: True
+
+HUMAN REVIEW CHECKLIST:
+- Multiple independent facts captured? Inspect extracted JSON.
+- Uncertainty preserved? Inspect confidence, uncertain, and fact_value.
+- Negations preserved? Inspect fact_value and wording.
+- Conditions preserved? Inspect fact_value and qualifiers.
+- Corrections handled correctly? Compare final/current meaning with input.
+- Questions kept separate from factual statements? Inspect facts.
+- Historical information kept from becoming a permanent fact? Inspect temporal wording.
+- Future/planned information preserved as future/planned? Inspect fact_value.
+- Unsupported information invented? Compare every fact with the input.
+- Uncertainty/conditions incorrectly converted to certainty? Inspect carefully.
+
+====================================================================================================
+3. Negation
+====================================================================================================
+
+INPUT:
+We don't offer home delivery ourselves. Customers can pick up their orders from the restaurant, and some customers arrange delivery through third-party platforms. We also don't currently provide catering.
+
+EXTRACTED JSON:
+{
+  "facts": [
+    {
+      "category": "ordering_and_delivery",
+      "fact_key": "direct_delivery",
+      "fact_value": {
+        "available": false,
+        "description": "The restaurant does not offer home delivery directly."
+      },
+      "confidence": 1.0,
+      "uncertain": false,
+      "source_text": "We don't offer home delivery ourselves."
+    },
+    {
+      "category": "ordering_and_delivery",
+      "fact_key": "pickup",
+      "fact_value": {
+        "available": true,
+        "location": "restaurant"
+      },
+      "confidence": 1.0,
+      "uncertain": false,
+      "source_text": "Customers can pick up their orders from the restaurant"
+    },
+    {
+      "category": "ordering_and_delivery",
+      "fact_key": "third_party_delivery",
+      "fact_value": {
+        "available": true,
+        "arranged_by": "customers",
+        "channel": "third-party platforms"
+      },
+      "confidence": 1.0,
+      "uncertain": false,
+      "source_text": "some customers arrange delivery through third-party platforms"
+    },
+    {
+      "category": "catering",
+      "fact_key": "catering_available",
+      "fact_value": {
+        "available": false
+      },
+      "confidence": 1.0,
+      "uncertain": false,
+      "source_text": "We also don't currently provide catering."
+    }
+  ]
+}
+
+NUMBER OF FACTS: 4
+PYDANTIC VALIDATION PASSED: True
+
+HUMAN REVIEW CHECKLIST:
+- Multiple independent facts captured? Inspect extracted JSON.
+- Uncertainty preserved? Inspect confidence, uncertain, and fact_value.
+- Negations preserved? Inspect fact_value and wording.
+- Conditions preserved? Inspect fact_value and qualifiers.
+- Corrections handled correctly? Compare final/current meaning with input.
+- Questions kept separate from factual statements? Inspect facts.
+- Historical information kept from becoming a permanent fact? Inspect temporal wording.
+- Future/planned information preserved as future/planned? Inspect fact_value.
+- Unsupported information invented? Compare every fact with the input.
+- Uncertainty/conditions incorrectly converted to certainty? Inspect carefully.
+
+====================================================================================================
+4. Conditional information
+====================================================================================================
+
+INPUT:
+Our regular menu is available every day, but the Sunday brunch menu is only available if we have enough staff that week. During private events, we sometimes offer a completely different menu depending on what the customer has booked.
+
+EXTRACTED JSON:
+{
+  "facts": [
+    {
+      "category": "menu",
+      "fact_key": "regular_menu_availability",
+      "fact_value": {
+        "menu_type": "regular",
+        "availability": "every day"
+      },
+      "confidence": 0.95,
+      "uncertain": false,
+      "source_text": "Our regular menu is available every day"
+    },
+    {
+      "category": "menu",
+      "fact_key": "sunday_brunch_menu_availability",
+      "fact_value": {
+        "menu_type": "Sunday brunch",
+        "condition": "only available if we have enough staff that week"
+      },
+      "confidence": 0.95,
+      "uncertain": true,
+      "source_text": "the Sunday brunch menu is only available if we have enough staff that week."
+    },
+    {
+      "category": "menu",
+      "fact_key": "private_events_menu",
+      "fact_value": {
+        "context": "private events",
+        "description": "sometimes offer a completely different menu depending on what the customer has booked"
+      },
+      "confidence": 0.95,
+      "uncertain": true,
+      "source_text": "During private events, we sometimes offer a completely different menu depending on what the customer has booked."
+    }
+  ]
+}
+
+NUMBER OF FACTS: 3
+PYDANTIC VALIDATION PASSED: True
+
+HUMAN REVIEW CHECKLIST:
+- Multiple independent facts captured? Inspect extracted JSON.
+- Uncertainty preserved? Inspect confidence, uncertain, and fact_value.
+- Negations preserved? Inspect fact_value and wording.
+- Conditions preserved? Inspect fact_value and qualifiers.
+- Corrections handled correctly? Compare final/current meaning with input.
+- Questions kept separate from factual statements? Inspect facts.
+- Historical information kept from becoming a permanent fact? Inspect temporal wording.
+- Future/planned information preserved as future/planned? Inspect fact_value.
+- Unsupported information invented? Compare every fact with the input.
+- Uncertainty/conditions incorrectly converted to certainty? Inspect carefully.
+
+====================================================================================================
+5. Correction
+====================================================================================================
+
+INPUT:
+We close at 10 PM every day - actually, sorry, that's Monday through Thursday. On Friday and Saturday we close at midnight, and on Sunday we close at 9 PM.
+
+EXTRACTED JSON:
+{
+  "facts": [
+    {
+      "category": "opening_hours",
+      "fact_key": "closing_hours_monday_through_thursday",
+      "fact_value": {
+        "days": [
+          "Monday",
+          "Tuesday",
+          "Wednesday",
+          "Thursday"
+        ],
+        "close_time": "10:00 PM"
+      },
+      "confidence": 0.95,
+      "uncertain": false,
+      "source_text": "We close at 10 PM every day - actually, sorry, that's Monday through Thursday."
+    },
+    {
+      "category": "opening_hours",
+      "fact_key": "closing_hours_friday_saturday",
+      "fact_value": {
+        "days": [
+          "Friday",
+          "Saturday"
+        ],
+        "close_time": "12:00 AM"
+      },
+      "confidence": 0.98,
+      "uncertain": false,
+      "source_text": "On Friday and Saturday we close at midnight"
+    },
+    {
+      "category": "opening_hours",
+      "fact_key": "closing_hours_sunday",
+      "fact_value": {
+        "days": [
+          "Sunday"
+        ],
+        "close_time": "9:00 PM"
+      },
+      "confidence": 0.98,
+      "uncertain": false,
+      "source_text": "and on Sunday we close at 9 PM."
+    }
+  ]
+}
+
+NUMBER OF FACTS: 3
+PYDANTIC VALIDATION PASSED: True
+
+HUMAN REVIEW CHECKLIST:
+- Multiple independent facts captured? Inspect extracted JSON.
+- Uncertainty preserved? Inspect confidence, uncertain, and fact_value.
+- Negations preserved? Inspect fact_value and wording.
+- Conditions preserved? Inspect fact_value and qualifiers.
+- Corrections handled correctly? Compare final/current meaning with input.
+- Questions kept separate from factual statements? Inspect facts.
+- Historical information kept from becoming a permanent fact? Inspect temporal wording.
+- Future/planned information preserved as future/planned? Inspect fact_value.
+- Unsupported information invented? Compare every fact with the input.
+- Uncertainty/conditions incorrectly converted to certainty? Inspect carefully.
+
+====================================================================================================
+6. Owner question + current fact
+====================================================================================================
+
+INPUT:
+Do you think we should start accepting reservations for the new private dining room? I'm not sure yet. We currently only accept walk-ins.
+
+EXTRACTED JSON:
+{
+  "facts": [
+    {
+      "category": "reservations",
+      "fact_key": "reservation_policy",
+      "fact_value": {
+        "accepts_reservations": false,
+        "policy": "walk-ins only"
+      },
+      "confidence": 1.0,
+      "uncertain": false,
+      "source_text": "We currently only accept walk-ins."
+    }
+  ]
+}
+
+NUMBER OF FACTS: 1
+PYDANTIC VALIDATION PASSED: True
+
+HUMAN REVIEW CHECKLIST:
+- Multiple independent facts captured? Inspect extracted JSON.
+- Uncertainty preserved? Inspect confidence, uncertain, and fact_value.
+- Negations preserved? Inspect fact_value and wording.
+- Conditions preserved? Inspect fact_value and qualifiers.
+- Corrections handled correctly? Compare final/current meaning with input.
+- Questions kept separate from factual statements? Inspect facts.
+- Historical information kept from becoming a permanent fact? Inspect temporal wording.
+- Future/planned information preserved as future/planned? Inspect fact_value.
+- Unsupported information invented? Compare every fact with the input.
+- Uncertainty/conditions incorrectly converted to certainty? Inspect carefully.
+
+====================================================================================================
+7. Unsupported inference
+====================================================================================================
+
+INPUT:
+We have twelve tables inside the restaurant and four tables outside. Most of our customers come in the evening, especially on weekends.
+
+EXTRACTED JSON:
+{
+  "facts": [
+    {
+      "category": "seating",
+      "fact_key": "indoor_tables_count",
+      "fact_value": {
+        "count": 12,
+        "type": "tables",
+        "location": "inside"
+      },
+      "confidence": 1.0,
+      "uncertain": false,
+      "source_text": "We have twelve tables inside the restaurant"
+    },
+    {
+      "category": "seating",
+      "fact_key": "outdoor_tables_count",
+      "fact_value": {
+        "count": 4,
+        "type": "tables",
+        "location": "outside"
+      },
+      "confidence": 1.0,
+      "uncertain": false,
+      "source_text": "four tables outside"
+    },
+    {
+      "category": "customer_traffic",
+      "fact_key": "busy_times",
+      "fact_value": {
+        "time_of_day": "evening",
+        "peak_days": "weekends",
+        "description": "Most customers come in the evening, especially on weekends"
+      },
+      "confidence": 1.0,
+      "uncertain": false,
+      "source_text": "Most of our customers come in the evening, especially on weekends."
+    }
+  ]
+}
+
+NUMBER OF FACTS: 3
+PYDANTIC VALIDATION PASSED: True
+
+HUMAN REVIEW CHECKLIST:
+- Multiple independent facts captured? Inspect extracted JSON.
+- Uncertainty preserved? Inspect confidence, uncertain, and fact_value.
+- Negations preserved? Inspect fact_value and wording.
+- Conditions preserved? Inspect fact_value and qualifiers.
+- Corrections handled correctly? Compare final/current meaning with input.
+- Questions kept separate from factual statements? Inspect facts.
+- Historical information kept from becoming a permanent fact? Inspect temporal wording.
+- Future/planned information preserved as future/planned? Inspect fact_value.
+- Unsupported information invented? Compare every fact with the input.
+- Uncertainty/conditions incorrectly converted to certainty? Inspect carefully.
+
+====================================================================================================
+8. Conversational answer + historical example
+====================================================================================================
+
+INPUT:
+Honestly, it depends. Usually we're there by eleven, but if there's a private event we sometimes open earlier. Last Sunday we actually opened at nine because we had a family function. We don't have a fixed breakfast service though.
+
+EXTRACTED JSON:
+{
+  "facts": [
+    {
+      "category": "opening_hours",
+      "fact_key": "usual_opening_time",
+      "fact_value": {
+        "time": "11:00",
+        "description": "Usually open by 11:00 AM"
+      },
+      "confidence": 0.9,
+      "uncertain": true,
+      "source_text": "Usually we're there by eleven"
+    },
+    {
+      "category": "opening_hours",
+      "fact_key": "private_events_opening",
+      "fact_value": {
+        "condition": "private event",
+        "opening_time_variation": "sometimes earlier"
+      },
+      "confidence": 0.85,
+      "uncertain": true,
+      "source_text": "if there's a private event we sometimes open earlier"
+    },
+    {
+      "category": "meal_services",
+      "fact_key": "fixed_breakfast_service",
+      "fact_value": {
+        "available": false
+      },
+      "confidence": 0.95,
+      "uncertain": false,
+      "source_text": "We don't have a fixed breakfast service though"
+    }
+  ]
+}
+
+NUMBER OF FACTS: 3
+PYDANTIC VALIDATION PASSED: True
+
+HUMAN REVIEW CHECKLIST:
+- Multiple independent facts captured? Inspect extracted JSON.
+- Uncertainty preserved? Inspect confidence, uncertain, and fact_value.
+- Negations preserved? Inspect fact_value and wording.
+- Conditions preserved? Inspect fact_value and qualifiers.
+- Corrections handled correctly? Compare final/current meaning with input.
+- Questions kept separate from factual statements? Inspect facts.
+- Historical information kept from becoming a permanent fact? Inspect temporal wording.
+- Future/planned information preserved as future/planned? Inspect fact_value.
+- Unsupported information invented? Compare every fact with the input.
+- Uncertainty/conditions incorrectly converted to certainty? Inspect carefully.
+
+====================================================================================================
+9. Blind discovery - patio, pets, private bookings
+====================================================================================================
+
+INPUT:
+Last month we started letting customers bring their dogs onto the outdoor patio, but only after 6 PM because that's when the dinner service begins. We don't advertise it yet because we're still figuring out whether people actually like the idea. One family also asked if they could reserve the whole patio for a birthday, and we said yes as long as they give us at least three days' notice.
+
+EXTRACTED JSON:
+{
+  "facts": [
+    {
+      "category": "pet_policy",
+      "fact_key": "dogs_on_outdoor_patio",
+      "fact_value": {
+        "allowed": true,
+        "location": "outdoor patio",
+        "time_restriction": "after 6:00 PM",
+        "reason": "dinner service begins at 6 PM",
+        "currently_advertised": false
+      },
+      "confidence": 0.95,
+      "uncertain": false,
+      "source_text": "Last month we started letting customers bring their dogs onto the outdoor patio, but only after 6 PM because that's when the dinner service begins."
+    },
+    {
+      "category": "private_events",
+      "fact_key": "patio_reservation_notice",
+      "fact_value": {
+        "allowed": true,
+        "area": "whole patio",
+        "minimum_notice_required": "3 days"
+      },
+      "confidence": 0.95,
+      "uncertain": false,
+      "source_text": "One family also asked if they could reserve the whole patio for a birthday, and we said yes as long as they give us at least three days' notice."
+    }
+  ]
+}
+
+NUMBER OF FACTS: 2
+PYDANTIC VALIDATION PASSED: True
+
+====================================================================================================
+10. Blind discovery - food preparation and seasonal offering
+====================================================================================================
+
+INPUT:
+My grandmother's recipe is the reason our lamb curry tastes different from most places. We make the spice paste here every morning, and we don't use any premade curry sauce. The naan is cooked fresh when ordered. During Diwali we also prepare a special vegetarian thali, but that's only available if we announce it ahead of time.
+
+EXTRACTED JSON:
+{
+  "facts": [
+    {
+      "category": "food_preparation",
+      "fact_key": "lamb_curry_preparation",
+      "fact_value": {
+        "item": "lamb curry",
+        "recipe_origin": "grandmother's recipe",
+        "spice_paste_frequency": "made in-house every morning",
+        "uses_premade_sauce": false
+      },
+      "confidence": 1.0,
+      "uncertain": false,
+      "source_text": "My grandmother's recipe is the reason our lamb curry tastes different from most places. We make the spice paste here every morning, and we don't use any premade curry sauce."
+    },
+    {
+      "category": "food_preparation",
+      "fact_key": "naan_preparation",
+      "fact_value": {
+        "item": "naan",
+        "cooked_fresh_on_order": true
+      },
+      "confidence": 1.0,
+      "uncertain": false,
+      "source_text": "The naan is cooked fresh when ordered."
+    },
+    {
+      "category": "seasonal_specials",
+      "fact_key": "diwali_special_thali",
+      "fact_value": {
+        "event": "Diwali",
+        "item": "special vegetarian thali",
+        "availability_condition": "only available if announced ahead of time"
+      },
+      "confidence": 1.0,
+      "uncertain": true,
+      "source_text": "During Diwali we also prepare a special vegetarian thali, but that's only available if we announce it ahead of time."
+    }
+  ]
+}
+
+NUMBER OF FACTS: 3
+PYDANTIC VALIDATION PASSED: True
+
+====================================================================================================
+11. Blind discovery - workspace and Wi-Fi
+====================================================================================================
+
+INPUT:
+We've had a few people ask whether they can work from here during the afternoon. We're okay with it Monday through Thursday, but not during lunch because the tables get too busy. There's free Wi-Fi, although I wouldn't describe it as especially fast.
+
+EXTRACTED JSON:
+{
+  "facts": [
+    {
+      "category": "policy",
+      "fact_key": "remote_work_policy",
+      "fact_value": {
+        "allowed": true,
+        "allowed_days": [
+          "Monday",
+          "Tuesday",
+          "Wednesday",
+          "Thursday"
+        ],
+        "restrictions": "Not allowed during lunch hours",
+        "reason": "Tables get too busy during lunch"
+      },
+      "confidence": 0.95,
+      "uncertain": false,
+      "source_text": "We're okay with it Monday through Thursday, but not during lunch because the tables get too busy."
+    },
+    {
+      "category": "amenities",
+      "fact_key": "wifi",
+      "fact_value": {
+        "available": true,
+        "free": true,
+        "speed_qualifier": "not especially fast"
+      },
+      "confidence": 0.95,
+      "uncertain": false,
+      "source_text": "There's free Wi-Fi, although I wouldn't describe it as especially fast."
+    }
+  ]
+}
+
+NUMBER OF FACTS: 2
+PYDANTIC VALIDATION PASSED: True
+
