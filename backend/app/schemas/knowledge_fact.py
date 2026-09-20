@@ -5,31 +5,26 @@ from __future__ import annotations
 from datetime import datetime
 from uuid import UUID
 
-from pydantic import BaseModel, ConfigDict
+from pydantic import BaseModel, ConfigDict, Field
 
 
 class KnowledgeFactCreate(BaseModel):
-    """Fields accepted when creating a knowledge fact."""
+    """Fields accepted when manually creating a knowledge fact."""
 
-    category: str
-    fact_key: str
+    category: str = Field(min_length=1, max_length=50)
+    fact_key: str = Field(min_length=1, max_length=150)
     fact_value_json: dict
-    source_text: str
-    source_language: str
-    confidence_score: float | None = None
-    status: str = "pending"
+    source_text: str = Field(min_length=1)
+    source_language: str = Field(min_length=1, max_length=10)
+    confidence_score: float | None = Field(default=None, ge=0, le=1)
 
 
 class KnowledgeFactUpdate(BaseModel):
-    """Fields that can be updated on a knowledge fact."""
+    """Fields editable on a pending knowledge candidate."""
 
-    category: str | None = None
-    fact_key: str | None = None
+    category: str | None = Field(default=None, min_length=1, max_length=50)
+    fact_key: str | None = Field(default=None, min_length=1, max_length=150)
     fact_value_json: dict | None = None
-    source_text: str | None = None
-    source_language: str | None = None
-    confidence_score: float | None = None
-    status: str | None = None
 
 
 class KnowledgeFactResponse(BaseModel):
@@ -44,9 +39,32 @@ class KnowledgeFactResponse(BaseModel):
     fact_value_json: dict
     source_text: str
     source_language: str
+    source_turn_id: UUID | None
     confidence_score: float | None
     status: str
     version: int
     created_at: datetime
     updated_at: datetime
     deleted_at: datetime | None
+
+
+class KnowledgeReviewItem(BaseModel):
+    """Pending candidate with its current approved comparison."""
+
+    candidate: KnowledgeFactResponse
+    current_approved: KnowledgeFactResponse | None
+
+
+class KnowledgeReviewEdit(BaseModel):
+    """Owner edit applied to a pending candidate."""
+
+    category: str | None = Field(default=None, min_length=1, max_length=50)
+    fact_key: str | None = Field(default=None, min_length=1, max_length=150)
+    fact_value_json: dict | None = None
+
+
+class KnowledgeCandidatePersistResponse(BaseModel):
+    """Result of persisting extraction candidates."""
+
+    created: list[KnowledgeFactResponse]
+    existing_equivalent: list[KnowledgeFactResponse]

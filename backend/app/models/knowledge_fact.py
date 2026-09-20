@@ -5,7 +5,16 @@ from __future__ import annotations
 import uuid
 from datetime import datetime
 
-from sqlalchemy import DateTime, Float, ForeignKey, Index, Integer, String, Text, text
+from sqlalchemy import (
+    DateTime,
+    Float,
+    ForeignKey,
+    Index,
+    Integer,
+    String,
+    Text,
+    text,
+)
 from sqlalchemy.dialects.postgresql import JSONB, UUID
 from sqlalchemy.orm import Mapped, mapped_column
 
@@ -18,10 +27,7 @@ class KnowledgeFact(Base):
     __tablename__ = "knowledge_facts"
 
     __table_args__ = (
-        Index(
-            "idx_knowledge_facts_restaurant",
-            "restaurant_id",
-        ),
+        Index("idx_knowledge_facts_restaurant", "restaurant_id"),
         Index(
             "idx_knowledge_facts_restaurant_status",
             "restaurant_id",
@@ -31,6 +37,10 @@ class KnowledgeFact(Base):
             "idx_knowledge_facts_restaurant_category",
             "restaurant_id",
             "category",
+        ),
+        Index(
+            "idx_knowledge_facts_source_turn",
+            "source_turn_id",
         ),
     )
 
@@ -69,6 +79,12 @@ class KnowledgeFact(Base):
     source_language: Mapped[str] = mapped_column(
         String(10),
         nullable=False,
+    )
+
+    source_turn_id: Mapped[uuid.UUID | None] = mapped_column(
+        UUID(as_uuid=True),
+        ForeignKey("conversations.id", ondelete="SET NULL"),
+        nullable=True,
     )
 
     confidence_score: Mapped[float | None] = mapped_column(
