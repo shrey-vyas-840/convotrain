@@ -1,4 +1,5 @@
 import { ChangeEvent, useRef, useState } from "react";
+import AccountPage from "./Account";
 import {
   ArrowDownRight,
   ArrowRight,
@@ -32,7 +33,7 @@ import {
   Zap,
 } from "lucide-react";
 
-type Page = "home" | "auth";
+type Page = "home" | "auth" | "account";
 type AuthMode = "login" | "signup";
 
 const faq = [
@@ -133,6 +134,12 @@ export function App() {
     setMenuOpen(false);
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
+
+  const openAccount = () => {
+  setPage("account");
+  setMenuOpen(false);
+  window.scrollTo({ top: 0, behavior: "smooth" });
+};
 
   const onFileChange = (e: ChangeEvent<HTMLInputElement>) =>
     setFile(e.target.files?.[0] ?? null);
@@ -244,7 +251,9 @@ export function App() {
       </div>
     );
   }
-
+if (page === "account") {
+  return <AccountPage onBackHome={goHome} />;
+}
   return (
     <div className="site">
       <header className="topbar">
@@ -257,11 +266,10 @@ export function App() {
           </button>
           <div className={`nav-links ${menuOpen ? "open" : ""}`}>
             <button onClick={() => scrollTo("product")}>Product</button>
-            <button onClick={() => scrollTo("capabilities")}>
-              Capabilities
-            </button>
+            <button onClick={() => scrollTo("capabilities")}>Capabilities</button>
             <button onClick={() => scrollTo("results")}>Results</button>
             <button onClick={() => scrollTo("faq")}>FAQ</button>
+            <button onClick={openAccount}>Account</button>
           </div>
           <div className="nav-actions">
             <button onClick={() => openAuth("login")}>Log in</button>

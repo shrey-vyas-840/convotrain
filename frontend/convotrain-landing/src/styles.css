@@ -1475,3 +1475,627 @@ button {
     margin-bottom: 25px;
   }
 }
+
+/* =========================================================
+   ACCOUNT PAGE
+   ========================================================= */
+
+.account-page {
+  min-height: 100vh;
+  width: 100%;
+  display: flex;
+  background: #f7f7f8;
+  color: #202123;
+  font-family: "DM Sans", sans-serif;
+}
+
+/* -------------------------
+   SIDEBAR
+   ------------------------- */
+
+.account-sidebar {
+  width: 285px;
+  min-width: 285px;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: #405189;
+  color: #dce3ff;
+  padding: 18px 14px;
+  box-sizing: border-box;
+}
+
+.account-sidebar-top {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.account-sidebar-brand {
+  border: 0;
+  background: transparent;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 10px 18px;
+  cursor: pointer;
+  font-size: 17px;
+  font-weight: 700;
+  text-align: left;
+}
+
+.account-brand-mark {
+  width: 30px;
+  height: 30px;
+  border-radius: 8px;
+  background: #ffffff;
+  color: #405189;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+}
+
+.account-new-chat {
+  width: 100%;
+  border: 1px solid #ffffff2a;
+  background: #ffffff12;
+  color: #ffffff;
+  border-radius: 8px;
+  padding: 11px 12px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  font-size: 13px;
+  text-align: left;
+  transition: .2s ease;
+}
+
+.account-new-chat:hover {
+  background: #ffffff20;
+}
+
+.account-search {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: #c4cdf0;
+  padding: 10px 12px;
+  font-size: 13px;
+}
+
+/* -------------------------
+   SIDEBAR MENU
+   ------------------------- */
+
+.account-menu {
+  margin-top: 22px;
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+.account-main-tab {
+  width: 100%;
+  border: 0;
+  background: transparent;
+  color: #d4dcff;
+  padding: 11px 10px;
+  border-radius: 7px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+  font-size: 14px;
+  transition: .2s ease;
+}
+
+.account-main-tab:hover,
+.account-main-tab.open {
+  background: #ffffff14;
+  color: #ffffff;
+}
+
+.account-main-label {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.account-subtabs {
+  display: flex;
+  flex-direction: column;
+  padding: 3px 0 8px 42px;
+  gap: 3px;
+}
+
+.account-subtabs button {
+  border: 0;
+  background: transparent;
+  color: #bdc7f2;
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  padding: 10px 8px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 13px;
+  text-align: left;
+  transition: .2s ease;
+}
+
+.account-subtabs button:hover,
+.account-subtabs button.active {
+  background: #ffffff12;
+  color: #ffffff;
+}
+
+.sub-dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  border: 1px solid #aeb9eb;
+}
+
+/* -------------------------
+   SIDEBAR BOTTOM
+   ------------------------- */
+
+.account-sidebar-bottom {
+  margin-top: auto;
+  border-top: 1px solid #ffffff18;
+  padding-top: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.account-sidebar-bottom button {
+  border: 0;
+  background: transparent;
+  color: #c8d0f2;
+  padding: 10px;
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  border-radius: 7px;
+  cursor: pointer;
+  font-size: 13px;
+  text-align: left;
+}
+
+.account-sidebar-bottom button:hover {
+  background: #ffffff12;
+  color: #ffffff;
+}
+
+/* -------------------------
+   MAIN CHATGPT-STYLE AREA
+   ------------------------- */
+
+.account-main {
+  flex: 1;
+  min-width: 0;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: #ffffff;
+}
+
+.account-topbar {
+  height: 64px;
+  min-height: 64px;
+  border-bottom: 1px solid #e7e7e9;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 24px;
+  background: #ffffff;
+}
+
+.account-topbar-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 15px;
+  font-weight: 600;
+  color: #252525;
+}
+
+.account-topbar-icon {
+  width: 31px;
+  height: 31px;
+  border-radius: 8px;
+  background: #f0f0f2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.account-avatar {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  border: 1px solid #dedee2;
+  background: #ffffff;
+  color: #55555d;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+/* -------------------------
+   CONTENT
+   ------------------------- */
+
+.account-content {
+  flex: 1;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-height: calc(100vh - 64px);
+}
+
+.account-content-inner {
+  width: min(820px, calc(100% - 48px));
+  margin: 0 auto;
+  padding: 70px 0 150px;
+}
+
+.account-eyebrow {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  color: #777780;
+}
+
+.account-content-inner h1 {
+  margin: 9px 0 8px;
+  font-family: "Space Grotesk", sans-serif;
+  font-size: 34px;
+  letter-spacing: -1px;
+  color: #202124;
+}
+
+.account-description {
+  margin: 0;
+  color: #73747c;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.account-card {
+  margin-top: 32px;
+  border: 1px solid #e5e5e8;
+  border-radius: 12px;
+  padding: 22px;
+  display: flex;
+  align-items: flex-start;
+  gap: 17px;
+  background: #ffffff;
+  box-shadow: 0 8px 30px rgba(0,0,0,.04);
+}
+
+.account-card-icon {
+  width: 40px;
+  height: 40px;
+  flex-shrink: 0;
+  border-radius: 9px;
+  background: #f1f1f4;
+  color: #55555d;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.account-card h3 {
+  margin: 1px 0 7px;
+  font-size: 15px;
+  color: #29292e;
+}
+
+.account-card p {
+  margin: 0;
+  color: #777780;
+  font-size: 13px;
+  line-height: 1.55;
+}
+
+/* -------------------------
+   CHATGPT-STYLE INPUT
+   ------------------------- */
+
+.account-chatbar {
+  position: absolute;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: min(760px, calc(100% - 48px));
+  min-height: 54px;
+  border: 1px solid #dcdce1;
+  border-radius: 15px;
+  background: #ffffff;
+  box-shadow: 0 8px 30px rgba(0,0,0,.08);
+  display: flex;
+  align-items: center;
+  padding: 6px 9px;
+  box-sizing: border-box;
+}
+
+.account-chatbar button {
+  width: 38px;
+  height: 38px;
+  border: 0;
+  background: transparent;
+  color: #66666e;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.account-chatbar button:hover {
+  background: #f1f1f3;
+}
+
+.account-chatbar input {
+  flex: 1;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  padding: 10px 9px;
+  font-size: 13px;
+  color: #222228;
+}
+
+.account-chatbar input::placeholder {
+  color: #9999a1;
+}
+
+.account-chatbar span {
+  color: #9999a1;
+  font-size: 10px;
+  padding-right: 9px;
+}
+
+/* =========================================================
+   ACCOUNT PAGE - RESPONSIVE
+   ========================================================= */
+/* =========================================================
+   ACCOUNT PAGE - MOBILE SIDEBAR
+   ========================================================= */
+
+.account-mobile-menu,
+.account-mobile-close,
+.account-sidebar-overlay {
+  display: none;
+}
+
+
+/* =========================
+   MOBILE
+   ========================= */
+
+@media (max-width: 700px) {
+
+  /* Main page uses the full screen */
+  .account-page {
+    width: 100%;
+    min-height: 100vh;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .account-main {
+    width: 100%;
+    min-width: 0;
+  }
+
+
+  /* =========================
+     SIDEBAR
+     ========================= */
+
+  .account-sidebar {
+    position: fixed;
+
+    top: 0;
+    left: 0;
+
+    width: 285px;
+    min-width: 285px;
+    height: 100vh;
+
+    z-index: 1000;
+
+    /* Hidden outside the screen */
+    transform: translateX(-100%);
+
+    transition: transform 0.25s ease;
+
+    box-shadow: 8px 0 30px rgba(0, 0, 0, 0.18);
+  }
+
+
+  /* Sidebar OPEN */
+
+  .account-sidebar.mobile-open {
+    transform: translateX(0);
+  }
+
+
+  /* =========================
+     DARK BACKGROUND
+     ========================= */
+
+  .account-sidebar-overlay {
+    display: block;
+
+    position: fixed;
+
+    inset: 0;
+
+    z-index: 999;
+
+    background: rgba(0, 0, 0, 0.4);
+  }
+
+
+  /* =========================
+     HAMBURGER BUTTON
+     ========================= */
+
+  .account-mobile-menu {
+    display: flex;
+
+    position: fixed;
+
+    top: 12px;
+    left: 12px;
+
+    z-index: 100;
+
+    width: 38px;
+    height: 38px;
+
+    align-items: center;
+    justify-content: center;
+
+    border: 1px solid #e1e1e5;
+    border-radius: 9px;
+
+    background: #ffffff;
+    color: #33343a;
+
+    cursor: pointer;
+
+    box-shadow: 0 3px 12px rgba(0, 0, 0, 0.08);
+  }
+
+
+  /* =========================
+     CLOSE BUTTON
+     ========================= */
+
+  .account-mobile-close {
+    display: flex;
+
+    position: absolute;
+
+    top: 16px;
+    right: 14px;
+
+    width: 34px;
+    height: 34px;
+
+    align-items: center;
+    justify-content: center;
+
+    border: 0;
+    border-radius: 8px;
+
+    background: #ffffff12;
+    color: #ffffff;
+
+    cursor: pointer;
+  }
+
+
+  /* =========================
+     TOP BAR
+     ========================= */
+
+  .account-topbar {
+    height: 62px;
+    min-height: 62px;
+
+    padding: 0 15px 0 65px;
+  }
+
+
+  /* =========================
+     CONTENT
+     ========================= */
+
+  .account-content {
+    min-height: calc(100vh - 62px);
+  }
+
+  .account-content-inner {
+    width: calc(100% - 32px);
+
+    padding-top: 40px;
+    padding-bottom: 120px;
+  }
+
+  .account-content-inner h1 {
+    font-size: 29px;
+  }
+
+  .account-description {
+    font-size: 13px;
+  }
+
+
+  /* =========================
+     CONTENT CARD
+     ========================= */
+
+  .account-card {
+    margin-top: 24px;
+    padding: 18px;
+  }
+
+
+  /* =========================
+     BOTTOM CHAT INPUT
+     ========================= */
+
+  .account-chatbar {
+    width: calc(100% - 24px);
+
+    bottom: 12px;
+
+    min-height: 52px;
+
+    border-radius: 14px;
+  }
+
+  .account-chatbar span {
+    display: none;
+  }
+
+  .account-chatbar input {
+    font-size: 13px;
+  }
+}
+
+
+/* =========================
+   VERY SMALL PHONES
+   ========================= */
+
+@media (max-width: 420px) {
+
+  .account-sidebar {
+    width: 290px;
+    min-width: 290px;
+  }
+
+  .account-content-inner {
+    width: calc(100% - 28px);
+  }
+
+  .account-content-inner h1 {
+    font-size: 27px;
+  }
+
+  .account-chatbar {
+    width: calc(100% - 20px);
+  }
+}
+
