@@ -5,6 +5,7 @@ from __future__ import annotations
 from datetime import datetime, timezone
 from uuid import UUID
 
+from fastapi import HTTPException, status
 from sqlalchemy import select
 from sqlalchemy.orm import Session
 
@@ -64,6 +65,7 @@ def get_next_question_key(question_key: str) -> str | None:
 
     raise ValueError(f"Unknown training question key: {question_key}")
 
+
 def get_training_session(
     db: Session,
     restaurant_id: UUID,
@@ -104,6 +106,29 @@ def create_training_session(
     return session
 
 
+def complete_training_session(
+    db: Session,
+    session: TrainingSession,
+) -> TrainingSession:
+    """Explicitly complete an active guided training session."""
+    if session.state == "completed":
+        return session
+
+    if session.state != "active":
+        raise HTTPException(
+            status_code=status.HTTP_409_CONFLICT,
+            detail="Training session cannot be completed from its current state",
+        )
+
+    session.state = "completed"
+    session.updated_at = datetime.now(timezone.utc).replace(tzinfo=None)
+
+    db.commit()
+    db.refresh(session)
+
+    return session
+
+
 def add_owner_message(
     db: Session,
     session: TrainingSession,
@@ -120,10 +145,8 @@ def add_owner_message(
     next_question_key = get_next_question_key(session.current_question_key)
 
     if next_question_key is None:
-        session.state = "completed"
         output_text = (
-            "Thank you. The guided training session is complete. "
-            "Your responses have been preserved for future knowledge extraction."
+            "Thank you. The guided training session is ready to be completed."
         )
     else:
         output_text = get_question_text(next_question_key)

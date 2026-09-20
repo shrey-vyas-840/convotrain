@@ -17,10 +17,11 @@ from app.schemas.conversation import (
     ConversationResponse,
 )
 from app.schemas.training_session import TrainingSessionResponse
+from app.services.restaurant import get_owned_restaurant
 from app.services.training import (
     add_owner_message,
+    complete_training_session,
     create_training_session,
-    get_owned_restaurant,
     get_question_text,
     get_training_session,
 )
@@ -112,6 +113,30 @@ def submit_owner_message(
         payload.input_text,
         payload.input_language,
     )
+
+
+@router.post(
+    "/sessions/{session_id}/complete",
+    response_model=TrainingSessionResponse,
+)
+def complete_training_session_endpoint(
+    restaurant_id: UUID,
+    session_id: UUID,
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db),
+) -> TrainingSessionResponse:
+    """Explicitly complete a guided owner text-training session."""
+    get_owned_restaurant(db, restaurant_id, current_user.id)
+
+    session = get_training_session(
+        db,
+        restaurant_id,
+        session_id,
+    )
+
+    session = complete_training_session(db, session)
+
+    return session_response(session)
 
 
 @router.get(
